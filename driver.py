@@ -1,7 +1,7 @@
 # Luna Perez-Herrera
 # GNU AGPLv3
 
-import DES
+from des import DES
 
 
 def main():
