@@ -3,7 +3,7 @@
 
 """Module providing a DES implementation for encryption"""
 
-import Constants
+import constants
 
 
 class DES:
@@ -13,14 +13,14 @@ class DES:
         # Key should be a 64 bit hexadexcimal string with no leading '0x'
         self.key = bin(int(key, 16))[2:].zfill(64)
 
-        self.__pc1 = Constants.des_PC1()
-        self.__pc2 = Constants.des_PC2()
-        self.__shifts = Constants.des_shifts()
-        self.__ip = Constants.des_IP()
-        self.__fp = Constants.des_FP()
-        self.__ep = Constants.des_EP()
-        self.__pf = Constants.des_PF()
-        self.__sboxes = Constants.des_sboxes()
+        self.__pc1 = constants.des_pc1()
+        self.__pc2 = constants.des_pc2()
+        self.__shifts = constants.des_shifts()
+        self.__ip = constants.des_ip()
+        self.__fp = constants.des_fp()
+        self.__ep = constants.des_ep()
+        self.__pf = constants.des_pf()
+        self.__sboxes = constants.des_sboxes()
         self.__round_keys = self.__generate_round_keys()
         self.__round_keys_reversed = self.__round_keys[::-1]
 

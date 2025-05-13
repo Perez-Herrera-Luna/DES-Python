@@ -3,7 +3,8 @@
 
 
 @staticmethod
-def des_PC1():
+def des_pc1():
+    """Defines the permuted choice 1 table required for DES"""
     return [
         57,
         49,
@@ -65,7 +66,8 @@ def des_PC1():
 
 
 @staticmethod
-def des_PC2():
+def des_pc2():
+    """Defines the permuted choice 2 table required for DES"""
     return [
         14,
         17,
@@ -120,11 +122,13 @@ def des_PC2():
 
 @staticmethod
 def des_shifts():
+    """Defines the left shifts schedule required for DES"""
     return [1, 1, 2, 2, 2, 2, 2, 2, 1, 2, 2, 2, 2, 2, 2, 1]
 
 
 @staticmethod
-def des_IP():
+def des_ip():
+    """Defines the intial permutation table required for DES"""
     return [
         58,
         50,
@@ -194,7 +198,8 @@ def des_IP():
 
 
 @staticmethod
-def des_FP():
+def des_fp():
+    """Defines the inverse intial permutation table required for DES"""
     return [
         40,
         8,
@@ -264,7 +269,8 @@ def des_FP():
 
 
 @staticmethod
-def des_EP():
+def des_ep():
+    """Defines the expansion permutation table required for DES"""
     return [
         32,
         1,
@@ -318,7 +324,8 @@ def des_EP():
 
 
 @staticmethod
-def des_PF():
+def des_pf():
+    """Defines the permutation function table required for DES"""
     return [
         16,
         7,
@@ -357,6 +364,7 @@ def des_PF():
 
 @staticmethod
 def des_sboxes():
+    """Defines the s-boxes required for DES"""
     return [
         # S1
         [  # Row 0
