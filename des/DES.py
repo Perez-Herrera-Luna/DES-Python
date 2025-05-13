@@ -10,8 +10,10 @@ class DES:
     """Class for a DES object. Capable of encrypting or decrypting an input with a key"""
 
     def __init__(self, key: str):
+        self.__validate_key(key)
         # Key should be a 64 bit hexadexcimal string with no leading '0x'
         self.key = bin(int(key, 16))[2:].zfill(64)
+        # Should split this into it's own function
 
         self.__pc1 = constants.des_pc1()
         self.__pc2 = constants.des_pc2()
@@ -150,3 +152,38 @@ class DES:
         # zfill ensures that the string is 16 characters long
         # If we didn't do this, a hex string with leading zeros would lose them
         return hex_str
+
+    # Validates key input
+    def __validate_key(self, key: str):
+        if "0x" in key:
+            raise ValueError('Key should not have leading "0x"')
+
+        if len(key) != 16:
+            raise ValueError(
+                "Key should have length 16 but received length " + str(len(key))
+            )
+
+        valid_set = {
+            "0",
+            "1",
+            "2",
+            "3",
+            "4",
+            "5",
+            "6",
+            "7",
+            "8",
+            "9",
+            "A",
+            "B",
+            "C",
+            "D",
+            "E",
+            "F",
+        }
+
+        for char in key:
+            if char not in valid_set:
+                raise ValueError(
+                    "Invalid hex string. Characters in string should be 0-F and uppercase"
+                )
