@@ -8,7 +8,7 @@
 
 Data Encryption Standard (DES) implemented in pure Python
 
-![Demo](https://github.com/user-attachments/assets/dc7d5830-3d71-4a24-a2c4-2e5617c53e9a)
+![Demo 2](https://github.com/user-attachments/assets/062b5004-a6c6-4330-bd42-3cc6fc409d5f)
 
 ## Installation
 
@@ -35,7 +35,6 @@ from des import DES
 ## Usage
 
 ### 1. DES
-
 Define a `DES` object while passing in your key. Key should be a hex string representing an 8 byte hexadecimal number.
 ```python
 from des import DES
@@ -50,18 +49,13 @@ You can simarly decrypt by calling `decrypt()` and passing in a hex string to de
 des.decrypt("0x85e813540f0ab405")    # -> "0x0123456789abcdef"
 ```
 
-<!--
-
 ### 2. Triple DES
-Works the same as regular DES except you need to pass in two or three keys when defining the `TripleDES` object. If only two keys are supplied, the first key will be used for the third key.
+Much like regular DES you can define a a `TripleDES` object. You must supply a 16 or 24 byte key when creating the object. The appropriate version of Triple DES will be used depending on the key length.
+You can call `encrypt()` and `decrypt()` just like regular DES
 ```python
 from des import triple_DES
-key1 = "133457799BBCDFF1"
-key2 = "AABB09182736CCDD"
-key3 = "0E329232EA6D0D73"
-triple_des = triple_DES.TripleDES(key1, key2, key3)
-triple_des.encrypt("0123456789ABCDEF")    # -> "EC1BA63F85773AB4"
-triple_des.encrypt("EC1BA63F85773AB4")    # -> "0123456789ABCDEF"
+key = "0x133457799bbcdff1aabb09182736ccdd0e329232ea6d0d73"
+triple_des = triple_DES.TripleDES(key)
+triple_des.encrypt("0x0123456789abcdef")    # -> "0xec1ba63f85773ab4"
+triple_des.encrypt("0xec1ba63f85773ab4")    # -> "0x0123456789abcdef"
 ```
-
--->
