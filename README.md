@@ -31,7 +31,6 @@ Or import the module into your project
 ```python
 from des import DES
 ```
-<!--
 
 ## Usage
 
@@ -44,21 +43,21 @@ des = DES.DES("133457799BBCDFF1")
 ```
 You can encrypt by calling `encrypt()` and passing in a string representing an 8 byte hexadecimal number
 ```python
-des.encrypt("0123456789ABCDEF")    # -> 85E813540F0AB405
+des.encrypt("0123456789ABCDEF")    # -> "85E813540F0AB405"
 ```
-You can simarly decrypt by calling `decrypt()` and passing in a hex strng to decrypt
+You can simarly decrypt by calling `decrypt()` and passing in a hex string to decrypt
 ```python
-des.decrypt("85E813540F0AB405")    # -> 0123456789ABCDEF
+des.decrypt("85E813540F0AB405")    # -> "0123456789ABCDEF"
 ```
 
 ### 2. Triple DES
-Works the same as DES except you need to pass in two or three keys when defining the `Triple_Des` object. If only two keys are supplied, the first key will be used for the third key.
+Works the same as regular DES except you need to pass in two or three keys when defining the `Triple_Des` object. If only two keys are supplied, the first key will be used for the third key.
 ```python
 from des import triple_DES
 key1 = "133457799BBCDFF1"
 key2 = "AABB09182736CCDD"
 key3 = "0E329232EA6D0D73"
 triple_des = triple_DES.TripleDES(key1, key2, key3)
+triple_des.encrypt("0123456789ABCDEF")    # -> "EC1BA63F85773AB4"
+triple_des.encrypt("EC1BA63F85773AB4")    # -> "0123456789ABCDEF"
 ```
-
--->
