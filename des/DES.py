@@ -10,10 +10,8 @@ class DES:
     """Class for a DES object. Capable of encrypting or decrypting an input with a key"""
 
     def __init__(self, key: str):
-        self.__validate_key(key)
-        # Key should be a 64 bit hexadexcimal string with no leading '0x'
-        self.key = bin(int(key, 16))[2:].zfill(64)
-        # Should split this into it's own function
+        # Key should be a 64 bit hexadecimal string
+        self.key = self.__validate_input(key)
 
         self.__pc1 = constants.des_pc1()
         self.__pc2 = constants.des_pc2()
@@ -28,8 +26,8 @@ class DES:
 
     def encrypt(self, plaintext: str) -> str:
         """Encrypts the input plaintext by the key"""
-        # Plaintext should be a 64 bit hexadecimal string with no leading '0x'
-        plaintext = bin(int(plaintext, 16))[2:].zfill(64)
+        # Plaintext should be a 64 bit hexadecimal string
+        plaintext = self.__validate_input(plaintext)
 
         # Preform initial permutation
         plaintext = self.__permute(plaintext, self.__ip)
@@ -50,8 +48,8 @@ class DES:
 
     def decrypt(self, ciphertext: str) -> str:
         """Decryptes the input ciphertext by the key"""
-        # Ciphertext should be a 64 bit hexadecimal string with no leading '0x'
-        ciphertext = bin(int(ciphertext, 16))[2:].zfill(64)
+        # Ciphertext should be a 64 bit hexadecimal string
+        ciphertext = self.__validate_input(ciphertext)
 
         # Perform intial permutation
         ciphertext = self.__permute(ciphertext, self.__ip)
@@ -146,22 +144,19 @@ class DES:
 
     # Formats a binary number as a hex string
     def __format_as_hex(self, hex_str):
-        hex_str = int(hex_str, 2)  # Convert to base 10
-        hex_str = hex(hex_str)  # Convert to base 16
-        hex_str = hex_str.upper().replace("0X", "").zfill(16)
-        # zfill ensures that the string is 16 characters long
-        # If we didn't do this, a hex string with leading zeros would lose them
+        hex_str = int(hex_str, 2)  # Converts to base 10
+        hex_str = "0x" + hex(hex_str)[2:].zfill(16)
+        # Converts to base 16, ensure 16 digits
+
         return hex_str
 
-    # Validates key input
-    def __validate_key(self, key: str):
-        if "0x" in key:
-            raise ValueError('Key should not have leading "0x"')
+    # Validates key, cleartext, and ciphertext input
+    def __validate_input(self, text: str) -> str:
+        if not "0x" in text[:2]:
+            raise ValueError('Input has no leading "0x"')
 
-        if len(key) != 16:
-            raise ValueError(
-                "Key should have length 16 but received length " + str(len(key))
-            )
+        if len(text) != 18:
+            raise ValueError("Key is of incorrect length")
 
         valid_set = {
             "0",
@@ -182,8 +177,11 @@ class DES:
             "F",
         }
 
-        for char in key:
+        for char in text[2:].upper():
             if char not in valid_set:
                 raise ValueError(
-                    "Invalid hex string. Characters in string should be 0-F and uppercase"
+                    "Invalid hex string. Characters in string should be 0-f"
                 )
+
+        text = bin(int(text, 16))[2:].zfill(64)
+        return text

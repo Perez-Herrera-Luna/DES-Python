@@ -5,10 +5,10 @@ from des import DES
 
 
 def main():
-    key = "133457799BBCDFF1"
+    key = "0x133457799bbcdff1"
     des = DES.DES(key)
 
-    plaintext = "0123456789ABCDEF"
+    plaintext = "0x0123456789abcdef"
     ciphertext = des.encrypt(plaintext)
     decrypted_text = des.decrypt(ciphertext)
 
