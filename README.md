@@ -22,10 +22,10 @@ Run `driver.py` for a quick example:
 python driver.py
 ```
 ```
-Plaintext: 0123456789ABCDEF
-Key: 133457799BBCDFF1
-Ciphertext: 85E813540F0AB405
-Decrypted text: 0123456789ABCDEF
+Plaintext: 0x0123456789abcdef
+Key: 0x133457799bbcdff1
+Ciphertext: 0x85e813540f0ab405
+Decrypted text: 0x0123456789abcdef
 ```
 Or import the module into your project
 ```python
@@ -36,19 +36,21 @@ from des import DES
 
 ### 1. DES
 
-Define a `DES` object while passing in your key. Key should be a string representing an 8 byte hexadecimal number. There should be no leading "0x"
+Define a `DES` object while passing in your key. Key should be a hex string representing an 8 byte hexadecimal number.
 ```python
 from des import DES
-des = DES.DES("133457799BBCDFF1")
+des = DES.DES("0x133457799bbcdff1")
 ```
-You can encrypt by calling `encrypt()` and passing in a string representing an 8 byte hexadecimal number
+You can encrypt by calling `encrypt()` and passing in a hex string representing an 8 byte hexadecimal number
 ```python
-des.encrypt("0123456789ABCDEF")    # -> "85E813540F0AB405"
+des.encrypt("0x0123456789abcdef")    # -> "0x85e813540f0ab405"
 ```
 You can simarly decrypt by calling `decrypt()` and passing in a hex string to decrypt
 ```python
-des.decrypt("85E813540F0AB405")    # -> "0123456789ABCDEF"
+des.decrypt("0x85e813540f0ab405")    # -> "0x0123456789abcdef"
 ```
+
+<!--
 
 ### 2. Triple DES
 Works the same as regular DES except you need to pass in two or three keys when defining the `TripleDES` object. If only two keys are supplied, the first key will be used for the third key.
@@ -61,3 +63,5 @@ triple_des = triple_DES.TripleDES(key1, key2, key3)
 triple_des.encrypt("0123456789ABCDEF")    # -> "EC1BA63F85773AB4"
 triple_des.encrypt("EC1BA63F85773AB4")    # -> "0123456789ABCDEF"
 ```
+
+-->
