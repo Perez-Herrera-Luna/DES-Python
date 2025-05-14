@@ -51,7 +51,7 @@ des.decrypt("85E813540F0AB405")    # -> "0123456789ABCDEF"
 ```
 
 ### 2. Triple DES
-Works the same as regular DES except you need to pass in two or three keys when defining the `Triple_Des` object. If only two keys are supplied, the first key will be used for the third key.
+Works the same as regular DES except you need to pass in two or three keys when defining the `TripleDES` object. If only two keys are supplied, the first key will be used for the third key.
 ```python
 from des import triple_DES
 key1 = "133457799BBCDFF1"
