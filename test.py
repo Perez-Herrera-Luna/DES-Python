@@ -1,3 +1,6 @@
+# Luna Perez-Herrera
+# GNU AGPLv3
+
 import pytest
 from des import DES
 from des import triple_DES
