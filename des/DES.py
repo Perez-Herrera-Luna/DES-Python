@@ -9,9 +9,13 @@ from des import constants
 class DES:
     """Class for a DES object. Capable of encrypting or decrypting an input with a key"""
 
-    def __init__(self, key: str):
-        # Key should be a 64 bit hexadecimal string
-        self.key = self.__validate_input(key)
+    def __init__(self, key):
+        # Key should be a hex string or bytes object
+        if self.__is_bytes_object(key):
+            key = self.__bytes_object_to_hex(key)
+
+        self.__validate_key(key)
+        self.key = self.__format_key(key)
 
         self.__pc1 = constants.des_pc1()
         self.__pc2 = constants.des_pc2()
@@ -24,10 +28,44 @@ class DES:
         self.__round_keys = self.__generate_round_keys()
         self.__round_keys_reversed = self.__round_keys[::-1]
 
-    def encrypt(self, plaintext: str) -> str:
+    def encrypt(self, plaintext) -> str:
         """Encrypts the input plaintext by the key"""
-        # Plaintext should be a 64 bit hexadecimal string
-        plaintext = self.__validate_input(plaintext)
+        # Plaintext should be a hex string or bytes object
+        if self.__is_bytes_object(plaintext):
+            plaintext = self.__bytes_object_to_hex(plaintext)
+
+        self.__validate_input(plaintext)
+        plaintext = self.__format_input(plaintext)
+        blocks = self.__split_blocks_encrypt(plaintext)
+        blocks[-1] = self.__pad_block(blocks[-1])
+
+        ciphertext = []
+        for block in blocks:
+            ciphertext.append(self.__encrypt_block(block))
+
+        return "0x" + "".join(ciphertext)
+
+    def decrypt(self, ciphertext) -> str:
+        """Decryptes the input ciphertext by the key"""
+        # Ciphertext should be a hex string or bytes object
+        if self.__is_bytes_object(ciphertext):
+            ciphertext = self.__bytes_object_to_hex(ciphertext)
+
+        self.__validate_input(ciphertext)
+        self.__validate_ciphertext(ciphertext)
+        ciphertext = self.__format_input(ciphertext)
+        blocks = self.__split_blocks_decrypt(ciphertext)
+
+        cleartext = []
+        for block in blocks:
+            cleartext.append(self.__decrypt_block(block))
+
+        cleartext[-1] = self.__strip_padding(cleartext[-1])
+
+        return "0x" + "".join(cleartext)
+
+    def __encrypt_block(self, plaintext: str) -> str:
+        plaintext = self.__format_block(plaintext)
 
         # Preform initial permutation
         plaintext = self.__permute(plaintext, self.__ip)
@@ -44,12 +82,10 @@ class DES:
         # Preform final permutation
         ciphertext = self.__permute(r[16] + l[16], self.__fp)
 
-        return self.__format_as_hex(ciphertext)
+        return self.__format_binary_string_as_hex(ciphertext)
 
-    def decrypt(self, ciphertext: str) -> str:
-        """Decryptes the input ciphertext by the key"""
-        # Ciphertext should be a 64 bit hexadecimal string
-        ciphertext = self.__validate_input(ciphertext)
+    def __decrypt_block(self, ciphertext: str) -> str:
+        ciphertext = self.__format_block(ciphertext)
 
         # Perform intial permutation
         ciphertext = self.__permute(ciphertext, self.__ip)
@@ -66,7 +102,7 @@ class DES:
         # Preform final permutation
         cleartext = self.__permute(r[16] + l[16], self.__fp)
 
-        return self.__format_as_hex(cleartext)
+        return self.__format_binary_string_as_hex(cleartext)
 
     # Generates the 16 rounds keys used in DES
     def __generate_round_keys(self):
@@ -143,21 +179,56 @@ class DES:
         return block[n:] + block[:n]
 
     # Formats a binary number as a hex string
-    def __format_as_hex(self, hex_str):
+    def __format_binary_string_as_hex(self, hex_str):
         hex_str = int(hex_str, 2)  # Converts to base 10
-        hex_str = "0x" + hex(hex_str)[2:].zfill(16)
-        # Converts to base 16, ensure 16 digits
+        hex_str = hex(hex_str)[2:].zfill(16)
 
         return hex_str
 
-    # Validates key, cleartext, and ciphertext input
-    def __validate_input(self, text: str) -> str:
-        if not "0x" in text[:2]:
-            raise ValueError('Input has no leading "0x"')
+    def __format_input(self, input_string: str):
+        input_string = input_string.lower()
 
-        if len(text) != 18:
+        if "0x" in input_string[:2]:
+            input_string = input_string[2:]
+
+        if len(input_string) % 2 == 1:
+            input_string = "0" + input_string
+
+        return input_string
+
+    def __format_block(self, block: str) -> str:
+        return bin(int(block, 16))[2:].zfill(64)
+
+    def __format_key(self, key: str) -> str:
+        return bin(int(key, 16))[2:].zfill(64)
+
+    def __bytes_object_to_hex(self, bytes_array: bytes) -> str:
+        return bytes_array.hex()
+
+    def __is_bytes_object(self, bytes_object) -> bool:
+        if isinstance(bytes_object, bytes):
+            return True
+        else:
+            return False
+
+    # Validates key, cleartext, and ciphertext input
+    def __validate_key(self, key: str):
+        if not isinstance(key, str):
+            raise TypeError(
+                "Invalid key type. Key should be a hex string or a bytes objects"
+            )
+
+        key = key.lower()
+
+        if "0x" in key[:2]:
+            key = key[2:]
+
+        if len(key) != 16:
             raise ValueError("Key is of incorrect length")
 
+        self.__validate_hex_string(key)
+
+    def __validate_hex_string(self, hex_string: str):
         valid_set = {
             "0",
             "1",
@@ -169,19 +240,80 @@ class DES:
             "7",
             "8",
             "9",
-            "A",
-            "B",
-            "C",
-            "D",
-            "E",
-            "F",
+            "a",
+            "b",
+            "c",
+            "d",
+            "e",
+            "f",
         }
 
-        for char in text[2:].upper():
+        for char in hex_string:
             if char not in valid_set:
                 raise ValueError(
                     "Invalid hex string. Characters in string should be 0-f"
                 )
 
-        text = bin(int(text, 16))[2:].zfill(64)
-        return text
+    def __validate_input(self, input_string: str):
+        if not isinstance(input_string, str):
+            raise TypeError(
+                "Invalid input type. Input should be a hex string or a bytes objects"
+            )
+
+        input_string = input_string.lower()
+
+        if "0x" in input_string[:2]:
+            input_string = input_string[2:]
+
+        self.__validate_hex_string(input_string)
+
+    def __validate_ciphertext(self, ciphertext: str):
+        ciphertext = ciphertext.lower()
+
+        if "0x" in ciphertext[:2]:
+            ciphertext = ciphertext[2:]
+
+        if not len(ciphertext) % 16 == 0:
+            raise ValueError("Decryption input is not multiple of block size (8 bytes)")
+
+    def __split_blocks_encrypt(self, input_string: str) -> list[str]:
+        n = len(input_string)
+        num_blocks = n // 16
+        remainder = n % 16
+
+        blocks = []
+        for i in range(num_blocks):
+            blocks.append(input_string[16 * i : 16 * (i + 1)])
+
+        if remainder == 0:
+            blocks.append("")
+        else:
+            blocks.append(input_string[16 * num_blocks : n])
+
+        return blocks
+
+    def __split_blocks_decrypt(self, input_string: str) -> list[str]:
+        n = len(input_string)
+        num_blocks = n // 16
+
+        blocks = []
+        for i in range(num_blocks):
+            blocks.append(input_string[16 * i : 16 * (i + 1)])
+
+        return blocks
+
+    def __pad_block(self, input_string: str) -> str:
+        full_block = 16
+        n = len(input_string)
+        pad_length = (full_block - n) // 2
+
+        pad_character = "0" + str(pad_length)
+        for _ in range(pad_length):
+            input_string += pad_character
+
+        return input_string
+
+    def __strip_padding(self, input_string: str) -> str:
+        strip_length = int(input_string[14:16], 16)
+
+        return input_string[0 : 16 - (strip_length * 2)]

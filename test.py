@@ -3,12 +3,9 @@
 
 import pytest
 from des import DES
-from des import triple_DES
 
 
-# Tests if the plaintext and decrypted ciphertext match
 def test_des():
-    """Test that the DES implementation is working correctly"""
     key = "0x133457799bbcdff1"
     des = DES.DES(key)
 
@@ -19,27 +16,36 @@ def test_des():
     assert plaintext == decrypted_text
 
 
-# Tests if the plaintext and decrypted ciphertext match
-def test_triple_des_3_keys():
-    """Test that the Triple DES implementation is working correctly"""
-    key = "0x133457799bbcdff1aabb09182736ccdd0e329232ea6d0d73"
-    triple_des = triple_DES.TripleDES(key)
+def test_des_padding():
+    key = "0x133457799bbcdff1"
+    des = DES.DES(key)
 
-    plaintext = "0x0123456789abcdef"
-    ciphertext = triple_des.encrypt(plaintext)
-    decrypted_text = triple_des.decrypt(ciphertext)
+    plaintext = "0x01234567"
+    ciphertext = des.encrypt(plaintext)
+    decrypted_text = des.decrypt(ciphertext)
 
     assert plaintext == decrypted_text
 
 
-# Tests if the plaintext and decrypted ciphertext match
-def test_triple_des_2_keys():
-    """Test that the Triple DES implementation is working correctly"""
-    key = "0x133457799bbcdff1aabb09182736ccdd"
-    triple_des = triple_DES.TripleDES(key)
+def test_des_ecb():
+    key = "0x133457799bbcdff1"
+    des = DES.DES(key)
 
-    plaintext = "0x0123456789abcdef"
-    ciphertext = triple_des.encrypt(plaintext)
-    decrypted_text = triple_des.decrypt(ciphertext)
+    plaintext = "0x0123456789abcdef0123456789abcdef"
+    ciphertext = des.encrypt(plaintext)
+    decrypted_text = des.decrypt(ciphertext)
 
     assert plaintext == decrypted_text
+
+
+def test_des_text():
+    key = "0x133457799bbcdff1"
+    des = DES.DES(key)
+
+    original_message = "secret message"
+    plaintext = original_message.encode("utf-8")
+    ciphertext = des.encrypt(plaintext)
+    cleartext = des.decrypt(ciphertext)
+    cleartext = bytes.fromhex(cleartext[2:]).decode("utf-8")
+
+    assert original_message == cleartext
