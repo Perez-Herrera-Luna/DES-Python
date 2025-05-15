@@ -316,4 +316,12 @@ class DES:
     def __strip_padding(self, input_string: str) -> str:
         strip_length = int(input_string[14:16], 16)
 
+        if strip_length > 8 or strip_length < 1:
+            # Invalid strip_length
+            return input_string
+
+        for i in range(16 - (strip_length * 2), 16, 2):
+            if int(input_string[i : i + 2], 16) != strip_length:
+                return input_string
+
         return input_string[0 : 16 - (strip_length * 2)]
