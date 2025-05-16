@@ -66,4 +66,4 @@ ciphertext = des.encrypt(b"secret message")                 # -> "0x0d417ca7d235
 cleartext = des.decrypt(ciphertext)                         # -> "0x736563726574206d657373616765"
 cleartext = bytes.fromhex(cleartext[2:]).decode("utf-8")    # -> "secret message"
 ```
-Note that all input is validated so if you passing in an inapropriate input the module will raise a corresponding error.
+Note that all input is validated so if you pass in an inapropriate input the module will raise a corresponding error.
