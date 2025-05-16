@@ -19,7 +19,7 @@ Data Encryption Standard (DES) implemented in pure Python
 
 ## Installation
 
-Clone the repository and enter the directrory
+Clone the repository and enter the directory
 ```bash
 git clone https://github.com/Perez-Herrera-Luna/DES-Python.git
 cd DES-Python
