@@ -1,13 +1,12 @@
 # Luna Perez-Herrera
 # GNU AGPLv3
 
-import pytest
-from des import DES
+import des_PurePy
 
 
 def test_des():
     key = "0x133457799bbcdff1"
-    des = DES.DES(key)
+    des = des_PurePy.DES(key)
 
     plaintext = "0x0123456789abcdef"
     ciphertext = des.encrypt(plaintext)
@@ -18,7 +17,7 @@ def test_des():
 
 def test_des_padding():
     key = "0x133457799bbcdff1"
-    des = DES.DES(key)
+    des = des_PurePy.DES(key)
 
     plaintext = "0x01234567"
     ciphertext = des.encrypt(plaintext)
@@ -29,7 +28,7 @@ def test_des_padding():
 
 def test_des_ecb():
     key = "0x133457799bbcdff1"
-    des = DES.DES(key)
+    des = des_PurePy.DES(key)
 
     plaintext = "0x0123456789abcdef0123456789abcdef"
     ciphertext = des.encrypt(plaintext)
@@ -40,7 +39,7 @@ def test_des_ecb():
 
 def test_des_text():
     key = "0x133457799bbcdff1"
-    des = DES.DES(key)
+    des = des_PurePy.DES(key)
 
     original_message = "secret message"
     plaintext = original_message.encode("utf-8")

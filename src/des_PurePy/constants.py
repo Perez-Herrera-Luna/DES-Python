@@ -1,10 +1,18 @@
 # Luna Perez-Herrera
 # GNU AGPLv3
 
+"""Defines the various constants required for DES."""
+
 
 @staticmethod
 def des_pc1():
-    """Defines the permuted choice 1 table required for DES"""
+    """Returns the permuted choice 1 table required for DES.
+
+    Returns
+    -------
+    pc1 : list[int]
+        A list of integers containing the contents of the PC1 table.
+    """
     return [
         57,
         49,
@@ -67,7 +75,13 @@ def des_pc1():
 
 @staticmethod
 def des_pc2():
-    """Defines the permuted choice 2 table required for DES"""
+    """Returns the permuted choice 2 table required for DES.
+
+    Returns
+    -------
+    pc1 : list[int]
+        A list of integers containing the contents of the PC2 table.
+    """
     return [
         14,
         17,
@@ -122,13 +136,25 @@ def des_pc2():
 
 @staticmethod
 def des_shifts():
-    """Defines the left shifts schedule required for DES"""
+    """Returns the left shifts schedule required for DES.
+
+    Returns
+    -------
+    left_shifts : list[int]
+        A list of integers containing the left shifts schedule.
+    """
     return [1, 1, 2, 2, 2, 2, 2, 2, 1, 2, 2, 2, 2, 2, 2, 1]
 
 
 @staticmethod
 def des_ip():
-    """Defines the intial permutation table required for DES"""
+    """Returns the initial permutation table required for DES.
+
+    Returns
+    -------
+    ip : list[int]
+        A list of integers containing the initial permutation table.
+    """
     return [
         58,
         50,
@@ -199,7 +225,13 @@ def des_ip():
 
 @staticmethod
 def des_fp():
-    """Defines the inverse intial permutation table required for DES"""
+    """Returns the inverse initial permutation table required for DES.
+
+    Returns
+    -------
+    fp : list[int]
+        A list of integers containing the inverse initial permutation table.
+    """
     return [
         40,
         8,
@@ -270,7 +302,13 @@ def des_fp():
 
 @staticmethod
 def des_ep():
-    """Defines the expansion permutation table required for DES"""
+    """Returns the expansion permutation table required for DES.
+
+    Returns
+    -------
+    ep : list[int]
+        A list of integers containing the expansion permutation table.
+    """
     return [
         32,
         1,
@@ -325,7 +363,13 @@ def des_ep():
 
 @staticmethod
 def des_pf():
-    """Defines the permutation function table required for DES"""
+    """Returns the permutation function table required for DES.
+
+    Returns
+    -------
+    pf : list[int]
+        A list of integers containing the permutation function table.
+    """
     return [
         16,
         7,
@@ -364,7 +408,13 @@ def des_pf():
 
 @staticmethod
 def des_sboxes():
-    """Defines the s-boxes required for DES"""
+    """Returns the s-boxes required for DES.
+
+    Returns
+    -------
+    sboxes : list[list[int]]
+        A list of list of integers containing the 8 s-boxes.
+    """
     return [
         # S1
         [  # Row 0

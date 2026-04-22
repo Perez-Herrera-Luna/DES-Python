@@ -1,21 +1,47 @@
 # Luna Perez-Herrera
 # GNU AGPLv3
 
-"""Module providing a DES implementation for encryption"""
+"""Module providing a DES class for a DES implementation"""
 
-from des import constants
+from . import constants
 
 
 class DES:
-    """Class for a DES object. Capable of encrypting or decrypting an input with a key"""
+    """Class for DES operations. Can encrypt or decrypt an input according to `key`
+
+    Parameters
+    ----------
+    key : hex string or bytes object
+        Key to be used for encrypting or decrypting.
+        Can be a string representing a hex number or a bytes object.
+        Hex strings can have a leading '0x' and are case-insensitive.
+        `key` should be exactly the key size for DES (64 bits)
+    """
+
+    # pylint: disable=too-many-instance-attributes
+    # I could have used a a getter for each constant but I honestly didn't feel like it
 
     def __init__(self, key):
-        # Key should be a hex string or bytes object
+        """Initializes a DES object with specified `key`
+
+        Parameters
+        ----------
+        key : hex string or bytes object
+            Key to be used for encrypting or decrypting.
+            Can be a string representing a hex number or a bytes object.
+            Hex strings can have a leading '0x' and are case-insensitive.
+            `key` should be exactly the key size for DES (64 bits)
+        """
         if self.__is_bytes_object(key):
             key = self.__bytes_object_to_hex(key)
 
         self.__validate_key(key)
         self.key = self.__format_key(key)
+        """Key to be used for encrypting or decrypting.
+        Can be a string representing a hex number or a bytes object.
+        Hex strings can have a leading '0x' and are case-insensitive.
+        `key` should be exactly the key size for DES (64 bits)
+        """
 
         self.__pc1 = constants.des_pc1()
         self.__pc2 = constants.des_pc2()
@@ -29,8 +55,23 @@ class DES:
         self.__round_keys_reversed = self.__round_keys[::-1]
 
     def encrypt(self, plaintext) -> str:
-        """Encrypts the input plaintext by the key"""
-        # Plaintext should be a hex string or bytes object
+        """Encrypts the input plaintext by `key` according to DES
+
+        Parameters
+        ----------
+        plaintext : hex string or bytes object
+            Plaintext to be encrypted.
+            Can be a string representing a hex number or a bytes object.
+            Hex strings can have a leading '0x' and are case-insensitive.
+            `plaintext` can be any length.
+
+        Returns
+        -------
+        ciphertext : str
+            Encrypted ciphertext as a hex number. Has a leading '0x'.
+            Length can vary according to length of input.
+            Will always be a multiple of the block size.
+        """
         if self.__is_bytes_object(plaintext):
             plaintext = self.__bytes_object_to_hex(plaintext)
 
@@ -46,7 +87,21 @@ class DES:
         return "0x" + "".join(ciphertext)
 
     def decrypt(self, ciphertext) -> str:
-        """Decryptes the input ciphertext by the key"""
+        """Decrypts the input ciphertext by `key` according to DES
+
+        Parameters
+        ----------
+        ciphertext : hex string or bytes object
+            Ciphertext to be encrypted.
+            Can be a string representing a hex number or a bytes object.
+            Hex strings can have a leading '0x' and are case-insensitive.
+            `ciphertext` length should be a multiple of the block size (64 bits)
+
+        Returns
+        -------
+        cleartext : str
+            Decrypted cleartext as a hex number. Has a leading '0x'.
+        """
         # Ciphertext should be a hex string or bytes object
         if self.__is_bytes_object(ciphertext):
             ciphertext = self.__bytes_object_to_hex(ciphertext)
@@ -140,9 +195,9 @@ class DES:
         return permuted_key
 
     # Preforms the S-box substitution in the DES algorithm
-    def __s_box_substitution(self, R):
+    def __s_box_substitution(self, r):
         # Split into 8 blocks of 6 bits
-        blocks = [R[i : i + 6] for i in range(0, len(R), 6)]
+        blocks = [r[i : i + 6] for i in range(0, len(r), 6)]
 
         # Perform S-box substitution
         for i, block in enumerate(blocks):
