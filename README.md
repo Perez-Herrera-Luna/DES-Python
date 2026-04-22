@@ -18,23 +18,22 @@ pip install des_Py
 ```
 Plaintext: 0x0123456789abcdef
 Key: 0x133457799bbcdff1
-Ciphertext: 0x85e813540f0ab405
+Ciphertext: 0x85e813540f0ab405fdf2e174492922f8
 Decrypted text: 0x0123456789abcdef
 ```
 
 ## Usage
-
-### 1. DES
-Define a `DES` object while passing in your key. Key should be a hex string representing an 8 byte hexadecimal number.
+### Encrypting Hex Strings
+Define a `DES` object while passing in your key. The key can be a hex string or a bytes object.
 ```python
 import des_Py
 des = des_Py.DES("0x133457799bbcdff1")
 ```
-You can encrypt by calling `encrypt()` and passing in a hex string representing an 8 byte hexadecimal number
+You can encrypt by calling `encrypt()` and passing in a hex string or bytes object.
 ```python
-des.encrypt("0x0123456789abcdef")    # -> "0x85e813540f0ab405"
+des.encrypt("0x0123456789abcdef")    # -> "0x85e813540f0ab405fdf2e174492922f8"
 ```
-You can simarly decrypt by calling `decrypt()` and passing in a hex string to decrypt
+You can simarly decrypt by calling `decrypt()` and passing in a hex string or bytes object.
 ```python
-des.decrypt("0x85e813540f0ab405")    # -> "0x0123456789abcdef"
+des.decrypt("0x85e813540f0ab405fdf2e174492922f8")    # -> "0x0123456789abcdef"
 ```
