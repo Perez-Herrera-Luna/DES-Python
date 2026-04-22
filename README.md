@@ -8,7 +8,7 @@
 
 Data Encryption Standard (DES) implemented in pure Python
 
-![Demo 3](https://github.com/user-attachments/assets/f2e17c10-1e13-4f43-8b27-618ed0468fc4)
+![Demo](https://github.com/user-attachments/assets/aaa905df-d924-4d52-80f4-b06390c1b523)
 
 ## Features
 
