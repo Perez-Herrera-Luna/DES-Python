@@ -15,13 +15,6 @@ Install using your Python package manager of choice:
 pip install des_Py
 ```
 
-```
-Plaintext: 0x0123456789abcdef
-Key: 0x133457799bbcdff1
-Ciphertext: 0x85e813540f0ab405fdf2e174492922f8
-Decrypted text: 0x0123456789abcdef
-```
-
 ## Usage
 ### Encrypting Hex Strings
 Define a `DES` object while passing in your key. The key can be a hex string or a bytes object.
