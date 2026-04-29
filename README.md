@@ -12,15 +12,15 @@ Data Encryption Standard (DES) implemented in pure Python
 
 Install using your Python package manager of choice:
 ```bash
-pip install des_Py
+pip install des_PurePy
 ```
 
 ## Usage
 ### Encrypting Hex Strings
 Define a `DES` object while passing in your key. The key can be a hex string or a bytes object.
 ```python
-import des_Py
-des = des_Py.DES("0x133457799bbcdff1")
+import des_PurePy
+des = des_PurePy.DES("0x133457799bbcdff1")
 ```
 You can encrypt by calling `encrypt()` and passing in a hex string or bytes object.
 ```python
