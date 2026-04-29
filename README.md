@@ -8,6 +8,13 @@ Data Encryption Standard (DES) implemented in pure Python
 
 ![Demo](https://github.com/user-attachments/assets/aaa905df-d924-4d52-80f4-b06390c1b523)
 
+## Features
+
+- **Encryption and Decryption**
+- **PKCS5 Padding**
+- **ECB Mode of Operation**
+- **Hex String and Bytes Object Support**
+
 ## Installation
 
 Install using your Python package manager of choice:
@@ -30,3 +37,18 @@ You can simarly decrypt by calling `decrypt()` and passing in a hex string or by
 ```python
 des.decrypt("0x85e813540f0ab405fdf2e174492922f8")    # -> "0x0123456789abcdef"
 ```
+By default, encryption input is padded to a multiple of the block size (8 bytes) according to PKCS5. Inputs that are multiple blocks long are encrypted using the Electronic Code Book (ECB) mode of operation.
+### Encrypting Bytes Objects and Text
+Inputs can be hex strings or bytes objects. The key must always be 8 bytes but the encryption input can have any size. 
+Because of the bytes object support, with some work, you can encrypt and decrypt text.
+```python
+import des_PurePy
+
+key = b"password"
+des = des_PurePy.DES(key)
+
+ciphertext = des.encrypt(b"secret message")                 # -> "0x0d417ca7d23582bab5e2c9277f801591"
+cleartext = des.decrypt(ciphertext)                         # -> "0x736563726574206d657373616765"
+cleartext = bytes.fromhex(cleartext[2:]).decode("utf-8")    # -> "secret message"
+```
+Note that all input is validated so if you passing in an inapropriate input the module will raise a corresponding error.
