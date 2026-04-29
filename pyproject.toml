@@ -2,7 +2,7 @@
 name = "des_PurePy"
 version = "1.0.8"
 authors = [
-    { name="Luna Perez-Herrera", email="lunaperezherrer@gmail.com" },
+    { name="Luna Perez-Herrera"}
 ]
 description = "A pure python implementation of DES"
 readme = "README.md"
