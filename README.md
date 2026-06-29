@@ -3,6 +3,7 @@
 ![made-with-python](https://img.shields.io/badge/Made%20with-Python%203-1f425f.svg)
 [![license: AGPL-3.0](https://img.shields.io/github/license/Perez-Herrera-Luna/DES-Python.svg)](https://github.com/Perez-Herrera-Luna/DES-Python/blob/main/LICENSE)
 [![DES-Python](https://github.com/Perez-Herrera-Luna/DES-Python/actions/workflows/python-app.yml/badge.svg)](https://github.com/Perez-Herrera-Luna/DES-Python/actions/workflows/python-app.yml)
+[![PyPI Downloads](https://static.pepy.tech/personalized-badge/des-purepy?period=total&units=INTERNATIONAL_SYSTEM&left_color=BLACK&right_color=GREEN&left_text=downloads)](https://pepy.tech/projects/des-purepy)
 
 Data Encryption Standard (DES) implemented in pure Python
 
