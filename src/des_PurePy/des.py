@@ -132,7 +132,7 @@ class DES:
         # Perform 16 rounds of DES
         for i in range(16):
             left.append(right[i])
-            left.append(self.__xor(left[i], self.__f(right[i], self.__round_keys[i])))
+            right.append(self.__xor(left[i], self.__f(right[i], self.__round_keys[i])))
 
         # Preform final permutation
         ciphertext = self.__permute(right[16] + left[16], self.__fp)
