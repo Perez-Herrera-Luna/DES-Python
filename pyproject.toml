@@ -1,6 +1,6 @@
 [project]
 name = "des_PurePy"
-version = "1.0.12"
+version = "1.0.13"
 authors = [
     { name="Luna Perez-Herrera"}
 ]
