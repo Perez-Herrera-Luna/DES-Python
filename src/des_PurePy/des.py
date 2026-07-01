@@ -126,16 +126,16 @@ class DES:
         plaintext = self.__permute(plaintext, self.__ip)
 
         # Split into two halves
-        l = [plaintext[:32]]
-        r = [plaintext[32:]]
+        left = [plaintext[:32]]
+        right = [plaintext[32:]]
 
         # Perform 16 rounds of DES
         for i in range(16):
-            l.append(r[i])
-            r.append(self.__xor(l[i], self.__f(r[i], self.__round_keys[i])))
+            left.append(right[i])
+            left.append(self.__xor(left[i], self.__f(right[i], self.__round_keys[i])))
 
         # Preform final permutation
-        ciphertext = self.__permute(r[16] + l[16], self.__fp)
+        ciphertext = self.__permute(right[16] + left[16], self.__fp)
 
         return self.__format_binary_string_as_hex(ciphertext)
 
@@ -146,16 +146,18 @@ class DES:
         ciphertext = self.__permute(ciphertext, self.__ip)
 
         # Split into two halves
-        l = [ciphertext[:32]]
-        r = [ciphertext[32:]]
+        left = [ciphertext[:32]]
+        right = [ciphertext[32:]]
 
         # Perform 16 rounds of DES
         for i in range(16):
-            l.append(r[i])
-            r.append(self.__xor(l[i], self.__f(r[i], self.__round_keys_reversed[i])))
+            left.append(right[i])
+            right.append(
+                self.__xor(left[i], self.__f(right[i], self.__round_keys_reversed[i]))
+            )
 
         # Preform final permutation
-        cleartext = self.__permute(r[16] + l[16], self.__fp)
+        cleartext = self.__permute(right[16] + left[16], self.__fp)
 
         return self.__format_binary_string_as_hex(cleartext)
 
